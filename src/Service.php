@@ -38,7 +38,7 @@ class Service extends Plugin
      * 定义安装包名
      * @var string
      */
-    protected $package = 'zoujingli/think-plugs-wechat';
+    protected $package = 'code-lives/think-plugs-word';
 
     /**
      * 注册组件服务
