@@ -1,0 +1,118 @@
+{extend name="main"}
+
+
+{block name="content"}
+<div class="think-box-notify margin-bottom-15">
+    <b>温馨提示：</b>符号是用来把每一列数据，根据符号隔开。
+</div>
+
+<div class="layui-card padding-20 shadow ">
+    <form class="layui-form" action='{:url("/word/index/toTxt")}'></form>
+    <div class="layui-form-item">
+        <label class="layui-form-label"><b>上传文件:</b></label>
+        <div class="layui-upload-drag" data-file data-type="png,jpeg,xlsx,txt" data-field="FileInput">
+            <input type="text" name="FileInput" style='display:none' id="FileInput" value="">
+            <i class="layui-icon xlsx"></i>
+            <p class="ms">点击上传，或将文件拖拽到此处</p>
+            <div class="layui-hide" id="uploadDemoView">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"><b>符号:</b></label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="可空" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <button type="button" class="layui-btn zh">开始转换</button>
+        </div>
+    </div>
+    </form>
+</div>
+
+<div class="layui-card padding-20 shadow ">
+    <div class="layui-form-item">
+        <div class="layui-progress layui-progress-big" lay-showPercent="true" lay-filter="demo-filter-progress">
+            <div class="layui-progress-bar layui-bg-blue" lay-percent="0%"></div>
+        </div>
+    </div>
+    <form class="layui-form layui-form-pane" action='{:url("/word/index/downloadTxt")}'>
+        <input type="text" style="display: none;" name="path" class="path" value="">
+        <div class="layui-form-item" style="display: flex; justify-content: center;">
+            <button type="submit" class="layui-btn down" lay-submit lay-filter="demo1">下载文件</button>
+        </div>
+    </form>
+</div>
+{/block}
+{block name='script'}
+<script>
+    $(function () {
+        var DISABLED = 'layui-btn-disabled';
+        $('.down').addClass(DISABLED);
+        /*！捕获文件上传结果 */
+        // $('[name=FileInput]').on('change', function () {
+        //     // 文件地址变量事件
+        //     console.log(this.value)
+        // });
+        /*！文件上传过程及事件处理 */
+        $('[data-file]').on('upload.choose', function (files) {
+            // 文件选择后的事件
+        }).on('upload.hash', function (event, file) {
+            // file 当前文件对象
+        }).on('upload.progress', function (event, obj) {
+            // obj.file 当前文件对象
+            // obj.event 文件上传进度事件
+            // obj.number 当前上传进度值 
+        }).on('upload.done', function (event, obj) {
+            // obj.file 当前完成的文件对象，每个文件上传成功将会调用
+            // obj.data 当前文件上传后服务端返回的内容，部分云上传不会返回数据
+            $(".xlsx").html('');
+            $(".xlsx").attr('class', 'layui-icon layui-icon-file');
+            $(".ms").html('上传成功');
+            $('#FileInput').val(obj.file.xkey);
+            // $('[name=FileInput]').val(obj.file.xkey);
+        }).on('upload.complete', function (event) {
+            // 全部文件上传成功
+            // console.log(event)
+        });
+        $(".zh").on('click', function () {
+            var filepath = $('#FileInput').val();
+            var symbol = $('.layui-input').val();
+            var element = layui.element;
+            var util = layui.util;
+            var data = {
+                'xkey': filepath,
+                'symbol': symbol,
+            };
+            $.form.load('{:url("/word/index/toTxt")}', data, 'post', function (ret) {
+                if (ret) {
+                    if (ret.code < 1) {
+                        return $.msg.error(ret.info), false;
+                    }
+                    if (!ret.data.status) {
+                        return $.msg.error(ret.data.msg), false;
+                    }
+                    var n = 0;
+                    var timer = setInterval(function () {
+                        n = n + Math.random() * 10 | 0;
+                        if (n > 100) {
+                            n = 100;
+                            clearInterval(timer);
+                            $('.down').removeClass(DISABLED);
+                            $(".path").val(ret.data.file);
+                        }
+                        element.progress('demo-filter-progress', n + '%');
+                    }, 200 + Math.random() * 3);
+                    return $.msg.success(ret.info), false;
+                } else {
+                    return $.msg.error(ret.info), false;
+                }
+            });
+        });
+    });
+
+</script>
+{/block}

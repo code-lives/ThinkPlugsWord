@@ -1,0 +1,259 @@
+{extend name="main"}
+{block name="content"}
+<div class="think-box-notify margin-bottom-15">
+    <b>温馨提示：</b> 使用文件只需要两列如AB两列，A代表编号，B代表面积。面积默认m2单位（文件暂时不可用）
+</div>
+
+<div class="layui-bg-gray" style="padding: 16px;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md6 shadow">
+            <div class="layui-card">
+                <div class="layui-card-header"><b>普通</b></div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action='{:url("/word/Prints/numNormal")}' method="post">
+                        <!-- 数字 -->
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">范围</label>
+                                <div class="layui-input-inline" style="width: 100px;">
+                                    <input type="text" name="num_min" placeholder="1" autocomplete="off"
+                                        class="layui-input" value="1">
+                                </div>
+                                <div class="layui-form-mid">-</div>
+                                <div class="layui-input-inline" style="width: 100px;">
+                                    <input type="text" name="num_max" placeholder="100" autocomplete="off"
+                                        class="layui-input" value="100">
+                                </div>
+                            </div>
+                        </div>
+                        <!--符号 -->
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">符号</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="symbol" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 按钮 -->
+                        <div class="layui-form-item" style="height: 50px; margin-top: 85px;">
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn" lay-submit lay-filter="normal">确认</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-col-md6 shadow">
+            <div class="layui-card">
+                <div class="layui-card-header"><b>文件（禁用中）</b></div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="">
+                        <!-- 文件 -->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><b>上传文件:</b></label>
+                            <!-- data-file -->
+                            <div class="layui-upload-drag" data-type="png,jpeg,xlsx,txt" data-field="FileInput">
+                                <input type="text" name="FileInput" style='display:none' id="FileInput" value="">
+                                <i class="layui-icon xlsx"></i>
+                                <p class="ms">点击上传，或将文件拖拽到此处</p>
+                                <div class="layui-hide" id="uploadDemoView">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">符号</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="symbol" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 按钮 -->
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn layui-btn-disabled" lay-submit
+                                    lay-filter="demo1">确认</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {/block}
+    {block name='script'}
+    <script>
+        $(function () {
+            /*！捕获文件上传结果 */
+            // $('[name=FileInput]').on('change', function () {
+            //     // 文件地址变量事件
+            //     console.log(this.value)
+            // });
+            /*！文件上传过程及事件处理 */
+            $('[data-file]').on('upload.choose', function (files) {
+                // 文件选择后的事件
+            }).on('upload.hash', function (event, file) {
+                // file 当前文件对象
+            }).on('upload.progress', function (event, obj) {
+                // obj.file 当前文件对象
+                // obj.event 文件上传进度事件
+                // obj.number 当前上传进度值 
+            }).on('upload.done', function (event, obj) {
+                // obj.file 当前完成的文件对象，每个文件上传成功将会调用
+                // obj.data 当前文件上传后服务端返回的内容，部分云上传不会返回数据
+                $(".xlsx").html('');
+                $(".xlsx").attr('class', 'layui-icon layui-icon-file');
+                $(".ms").html('上传成功');
+                // $('#FileInput').val(obj.file.xkey);
+
+                // $('[name=FileInput]').val(obj.file.xkey);
+            }).on('upload.complete', function (event) {
+                // 全部文件上传成功
+                // console.log(event)
+            });
+            form.on('submit(normal)', function (data) {
+                var field = data.field; // 获取表单全部字段值
+                var elem = data.elem; // 获取当前触发事件的元素 DOM 对象，一般为 button 标签
+                var elemForm = data.form; // 获取当前表单域的 form 元素对象，若容器为 form 标签才会返回。
+                $.form.load('{:url("numNormal")}', field, 'post', function (ret) {
+                    if (ret) {
+                        if (ret.code < 1) {
+                            return $.msg.error(ret.info), false;
+                        }
+                        prints(ret.data.list, ret.data.prefix);
+                        return false;
+                        // return $.msg.success(ret.info), false;
+                    } else {
+                        return $.msg.error(ret.info), false;
+                    }
+                    return false; // 阻止默认 form 跳转
+                });
+                return false;
+
+            });
+            function prints(list, prefix = '') {
+                var content = '';
+                for (var i = 0; i < list.length; i++) {
+                    if (prefix) {
+                        content += "<div class='circle'><div class='number'>" + prefix + list[i] + "</div></div>";
+                    } else {
+                        content += "<div class='circle'><div class='number'>" + list[i] + "</div></div>";
+                    }
+                }
+                var style = `
+    /* 页面样式 */
+    @media print {
+        /* 移除默认的页眉和页脚 */
+        @page {
+            size: auto;
+            /* 使用自动大小以适应页面内容 */
+            margin: 0;
+        }
+
+        @top-center,
+        @bottom-center {
+            content: none;
+        }
+
+        .circle {
+            transform: translateY(50%);
+            /* 使元素垂直居中 */
+            position: relative;
+            /* 为内部子元素设置定位 */
+        }
+
+        .m2 {
+            font-size: 25px;
+        }
+    }
+
+    /* 圆形区域样式 */
+    .circle {
+        width: 500px;
+        /* 调整为适合打印的大小 */
+        height: 500px;
+        /* 调整为适合打印的大小 */
+        border: 10px solid black;
+        /* 边框样式 */
+        border-radius: 50%;
+        /* 圆形边框 */
+        display: flex;
+        /* 使用Flexbox布局 */
+        flex-direction: column;
+        /* 主轴方向为列 */
+        align-items: center;
+        /* 子元素垂直居中 */
+        justify-content: center;
+        /* 子元素水平居中 */
+        margin: 0 auto;
+        /* 水平居中，并添加一些外边距 */
+        page-break-before: always;
+        /* 在每个圆形区域前强制分页 */
+        vertical-align: middle;
+    }
+
+    /* 数字样式 */
+    .number {
+        font-size: 200px;
+        /* 设置字体大小 */
+        font-weight: bold;
+        /* 加粗字体 */
+        margin-bottom: 5px;
+        /* 添加一些下边距 */
+    }
+    @media print and (orientation: landscape) {
+            .circle:first-child {
+                margin-top: calc(50vh - 530px);
+                /* 计算使圆形垂直居中 */
+            }
+            
+            /* Avoid splitting circles across pages */
+            .circle:nth-child(odd) {
+                page-break-after: always;
+            }
+
+            /* Adjust for subsequent pages */
+            .circle:not(:first-child) {
+                // margin-top: 0;
+                transform: none;
+            }
+        }
+`;
+                // 创建一个包含内容的 HTML 字符串
+                var htmlContent = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>打印</title>
+            <style>
+                ${style}
+            </style>
+        </head>
+        <body>
+            ${content}
+        </body>
+        </html>
+    `;
+                var targetWindow = window.open('', '_blank');
+                targetWindow.document.open();
+                targetWindow.document.write(htmlContent);
+                targetWindow.document.close();
+
+                // 等待内容加载完成后执行打印操作
+                targetWindow.onload = function () {
+                    targetWindow.print();
+                    targetWindow.close();
+                };
+            }
+        });
+    </script>
+    {/block}

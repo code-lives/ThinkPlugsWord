@@ -1,0 +1,30 @@
+<div class="layui-upload-drag" data-file='mut'
+    data-type="doc,gif,ico,jpg,mp3,mp4,p12,pem,png,zip,rar,xls,xlsx,txt,docx,pdf,jpeg" data-field="FileInput"
+    style="display: block;" data-size="10240000" id="ID-upload-demo-drag">
+    <i class="layui-icon layui-icon-upload"></i>
+    <div>点击上传，或将文件拖拽到此处(最大20MB)</div>
+</div>
+<script>
+    $(function () {
+        /*！捕获文件上传结果 */
+        $('[name=FileInput]').on('change', function () {
+            // 文件地址变量事件
+            // console.log(this.value)
+        });
+        /*！文件上传过程及事件处理 */
+        $('[data-file]').on('upload.choose', function (files) {
+            // 文件选择后的事件
+        }).on('upload.hash', function (event, file) {
+            // file 当前文件对象
+        }).on('upload.progress', function (event, obj) {
+            // obj.file 当前文件对象
+            // obj.event 文件上传进度事件
+            // obj.number 当前上传进度值
+        }).on('upload.done', function (event, obj) {
+            // obj.file 当前完成的文件对象，每个文件上传成功将会调用
+            // obj.data 当前文件上传后服务端返回的内容，部分云上传不会返回数据
+        }).on('upload.complete', function (event) {
+            // 全部文件上传成功
+        });
+    });
+</script>

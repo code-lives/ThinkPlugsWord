@@ -1,0 +1,51 @@
+{
+  "type": "think-word-plugin",
+  "name": "code-lives/think-plugs-word",
+  "version": "1.0.0",
+  "license": "MIT",
+  "homepage": "https://github.com/code-lives/ThinkPlugsWord",
+  "description": "Word Plugin for ThinkAdmin",
+  "authors": [
+    {
+      "name": "LiJie",
+      "email": "948870149@qq.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "ext-json": "*",
+    "topthink/framework": "^6.0|^8.0",
+    "topthink/think-view": "^1.0|^2.0",
+    "zoujingli/ip2region": "^1.0|^2.0|@dev",
+    "zoujingli/think-install": "^1.0|@dev",
+    "zoujingli/think-library": "^6.1|@dev",
+    "zoujingli/think-plugs-static": "^1.0|@dev"
+  },
+  "extra": {
+    "think": {
+      "services": [
+        "app\\word\\Service"
+      ]
+    },
+    "config": {
+      "type": "module",
+      "name": "文件管理",
+      "document": "https://github.com/code-lives/ThinkPlugsWord",
+      "description": "文件管理,转化Pdf等"
+    },
+    "plugin": {
+      "copy": {
+        "src": "!app/word"
+      },
+      "clear": true
+    }
+  },
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "zoujingli/think-install": true
+    }
+  }
+}

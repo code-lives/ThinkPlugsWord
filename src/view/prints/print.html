@@ -1,0 +1,91 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 页面样式 */
+        @media print {
+
+            /* 移除默认的页眉和页脚 */
+            @page {
+                size: auto;
+                /* 使用自动大小以适应页面内容 */
+                margin: 0;
+            }
+
+            @top-center,
+            @bottom-center {
+                content: none;
+            }
+
+            .circle {
+                width: 500px;
+                /* 调整为适合打印的大小 */
+                height: 500px;
+                /* 调整为适合打印的大小 */
+                border: 10px solid black;
+                /* 边框样式 */
+                border-radius: 50%;
+                /* 圆形边框 */
+                display: flex;
+                /* 使用Flexbox布局 */
+                flex-direction: column;
+                /* 主轴方向为列 */
+                align-items: center;
+                /* 子元素垂直居中 */
+                justify-content: center;
+                /* 子元素水平居中 */
+                margin: 0 auto;
+                /* 水平居中 */
+                page-break-before: always;
+                /* 在每个圆形区域前强制分页 */
+            }
+
+            .number {
+                font-size: 200px;
+                /* 设置字体大小 */
+                font-weight: bold;
+                /* 加粗字体 */
+                margin-bottom: 5px;
+                /* 添加一些下边距 */
+            }
+
+            .area {
+                font-size: 150px;
+                /* 设置字体大小 */
+                display: flex;
+                /* 使用Flexbox布局 */
+                align-items: center;
+                /* 子元素垂直居中 */
+                justify-content: center;
+                /* 子元素水平居中 */
+                margin-left: 35px;
+                /* 添加一些左边距 */
+            }
+
+            .m2 {
+                font-size: 50px;
+                /* 设置字体大小 */
+                margin-left: 5px;
+                /* 添加一些左边距 */
+                align-self: flex-start;
+                /* 对齐方式为开始对齐，以覆盖父元素的居中对齐 */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="circle">
+        <div class="number">2323</div>
+    </div>
+    <div class="area">2323 <span class="m2">m²</span></div>
+    <div class="circle">
+        <div class="number">2323</div>
+    </div>
+    <div class="area">2323 <span class="m2">m²</span></div>
+</body>
+
+</html>
