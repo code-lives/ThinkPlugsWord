@@ -24,7 +24,7 @@ use think\migration\Migrator;
 /**
  * 微信初始化
  */
-class InstallWechatData extends Migrator
+class InstallWordtData extends Migrator
 {
     /**
      * 初始化数据
