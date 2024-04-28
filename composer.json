@@ -31,8 +31,7 @@
     "plugin": {
       "copy": {
         "src": "app/word"
-      },
-      "clear": true
+      }
     },
     "think": {
       "services": [
