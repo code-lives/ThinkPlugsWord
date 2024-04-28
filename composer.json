@@ -35,7 +35,7 @@
     },
     "plugin": {
       "copy": {
-        "src": "!app/word"
+        "src": "app/word"
       },
       "clear": true
     }
