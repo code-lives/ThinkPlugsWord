@@ -30,8 +30,10 @@
     },
     "plugin": {
       "copy": {
-        "src": "app/word"
-      }
+        "src": "app/word",
+        "stc/database": "database/migrations"
+      },
+      "clear": true
     },
     "think": {
       "services": [
