@@ -19,7 +19,11 @@
     "zoujingli/ip2region": "^1.0|^2.0|@dev",
     "zoujingli/think-install": "^1.0|@dev",
     "zoujingli/think-library": "^6.1|@dev",
-    "zoujingli/think-plugs-static": "^1.0|@dev"
+    "zoujingli/think-plugs-static": "^1.0|@dev",
+    "elasticsearch/elasticsearch": "^8.14",
+    "phpoffice/phpspreadsheet": "^1.29",
+    "phpoffice/phpword": "^1.2",
+    "spatie/pdf-to-text": "^1.52"
   },
   "extra": {
     "config": {
