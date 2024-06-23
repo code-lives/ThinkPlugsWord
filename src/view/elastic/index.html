@@ -1,27 +1,25 @@
-{extend name='table'} {block name="button"}
-<!--{if auth("distinct")}-->
-<button data-table-id="WordTable" data-modal='{:url("file")}' class="layui-btn layui-btn-sm layui-btn-primary">
-    添加文件
-</button>
-<a data-table-id="FileTable" data-load='{:url("distinct")}'
-    class="layui-btn layui-btn-sm layui-btn-primary">{:lang('清理重复')}</a>
-<!--{/if}-->
-<!--{if auth("remove")}-->
-<a data-confirm="{:lang('确定删除这些记录吗？')}" data-table-id="FileTable" data-action='{:url("remove")}' data-rule="id#{id}"
-    class="layui-btn layui-btn-sm layui-btn-primary">{:lang('批量删除')}</a>
-<!--{/if}-->
-{/block} {block name="content"}
+{extend name='table'}
+
+{block name="button"}
+<a data-table-id="QueueTable" class="layui-btn layui-btn-sm layui-btn-primary layui-bg-blue"
+    data-queue="{:url('addQueue')}">{:lang('搜索数据更新')}</a>
+
+{/block}
+
+{block name="content"}
 <div class="think-box-shadow">
-    {include file='word/index_search'}
+    {include file='elastic/index_search'}
     <table id="FileTable" data-url="{:sysuri('index')}" data-target-search="form.form-search"></table>
 </div>
+{/block}
+
+{block name='script'}
 <script>
     $(function () {
         $("#FileTable").layTable({
             even: true,
             height: "full",
             toolbar: '#WordTable',
-            sort: { field: "id", type: "desc" },
             cols: [
                 [
                     { checkbox: true, fixed: true },
@@ -38,7 +36,6 @@
                         title: '{:lang("文件大小")}',
                         align: "center",
                         width: "10%",
-                        sort: true,
                         templet: "<div>{{-$.formatFileSize(d.size)}}</div>",
                     },
                     {
@@ -46,7 +43,6 @@
                         title: '{:lang("文件后缀")}',
                         align: "center",
                         width: "10%",
-                        sort: true,
                     },
                     {
                         field: "xurl",
@@ -112,7 +108,7 @@
   {{# if(d.xext!='pdf'){ }}
   <a
     class="layui-btn layui-btn-sm  layui-icon layui-icon-export"
-    href="{:url('pdf')}?id={{d.id}}"
+    href="{:url('word/pdf')}?id={{d.id}}"
     data-title="导出PDF"
     >{:lang("导出PDF")}</a
   >
@@ -122,14 +118,14 @@
   {if auth("edit")}
   <a
     class="layui-btn layui-btn-sm"
-    data-modal="{:url('edit')}?id={{d.id}}"
+    data-modal="{:url('word/edit')}?id={{d.id}}"
     data-title="编辑文件信息"
     >{:lang("编 辑")}</a
   >
   {/if} {if auth("remove")}
   <a
     class="layui-btn layui-btn-sm layui-btn-danger"
-    data-action="{:url('remove')}"
+    data-action="{:url('word/remove')}"
     data-value="id#{{d.id}}"
     >{:lang("删 除")}</a
   >
@@ -137,7 +133,7 @@
       {if auth("downloads")}
     <a
       class="layui-btn layui-btn-sm"
-      href="{:url('downloads')}?id={{d.id}}"
+      href="{:url('word/downloads')}?id={{d.id}}"
       data-title="下载"
       >{:lang("下载")}</a
     >

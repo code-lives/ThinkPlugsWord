@@ -3,8 +3,7 @@
 declare(strict_types=1);
 
 namespace app\word\controller;
-// php think make:service app\\word\\service\\Execl
-// 
+
 use app\word\service\FileService;
 use think\admin\Controller;
 use think\admin\helper\QueryHelper;

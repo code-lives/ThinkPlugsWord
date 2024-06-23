@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 namespace app\word;
 
-
+use app\word\command\Elastic;
 use think\admin\Plugin;
 
 /**
@@ -46,6 +46,8 @@ class Service extends Plugin
      */
     public function register(): void
     {
+
+        $this->commands([Elastic::class]);
     }
 
     /**
@@ -72,6 +74,12 @@ class Service extends Plugin
                 'name' => '编号打印',
                 'subs' => [
                     ['name' => '编号打印', 'icon' => 'layui-icon layui-icon-print', 'node' => 'word/prints/index'],
+                ],
+            ],
+            [
+                'name' => '超级搜索',
+                'subs' => [
+                    ['name' => '内容搜索', 'icon' => 'layui-icon layui-icon-search', 'node' => 'word/elastic/index'],
                 ],
             ],
 

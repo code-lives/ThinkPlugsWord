@@ -3,16 +3,11 @@
 declare(strict_types=1);
 
 namespace app\word\controller;
-// php think make:service app\\word\\service\\Execl
-// 
 
 use app\word\model\Word as ModelWord;
-use app\word\service\FileService;
 use app\word\service\PdfService;
 use think\admin\Controller;
 use think\admin\helper\QueryHelper;
-use think\admin\model\SystemOplog;
-use think\Response;
 use think\admin\model\SystemFile;
 use think\admin\service\AdminService;
 use think\admin\Storage;
@@ -110,7 +105,7 @@ class Word extends Controller
             $this->redirect('/');
         }
         $info = pathinfo($data->name);
-        return download('/var/www/html/public/upload/' . $data->xkey, $info[''] . '.' . $data->xext)->expire(300);
+        return download('/var/www/html/public/upload/' . $data->xkey, $info['basename'] . '.' . $data->xext)->expire(300);
     }
     /**
      * 文档转为PDF
