@@ -39,6 +39,7 @@ class Elastic extends Command
             $this->setQueueSuccess("非法操作！");
         }
         $service = ElasticService::make();
+        $service->esCreateIk();
         $result = ElasticService::make()->fileList($uuid);
         $count = 0;
         $total = count($result);
@@ -51,7 +52,7 @@ class Elastic extends Command
             } else if ($val['xext'] == 'pdf') {
                 $content = $service->getPdf($val['xkey']);
             } else if ($val['xext'] == 'txt') {
-                $content = $service->getPdf($val['xkey']);
+                $content = $service->getTxt($val['xkey']);
             } else {
                 $content = $val['name'];
             }

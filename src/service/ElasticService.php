@@ -58,15 +58,6 @@ class ElasticService
         $result = SystemFile::mk()->where(['uuid' => $uuid])->select()->toArray();
         return $result;
     }
-    public function allInsert($data)
-    {
-        try {
-            return $this->client->bulk($data);
-        } catch (\Exception $e) {
-            // 记录异常日志
-            error_log('Error during bulk insert: ' . $e->getMessage());
-        }
-    }
     // ES文件内容存储限制文件【doc、docx、pdf，execl】
     public function esInsert($body, $content)
     {
@@ -97,14 +88,12 @@ class ElasticService
             'from' => ($page - 1) * $limit,
         ];
         $data = $this->client->search($searchParams)->asArray();
-        $count = 0;
         if ($data['hits']['total']['value'] == 0) {
             $result = [];
         } else {
             foreach ($data['hits']['hits'] as $index => $item) {
                 $result[$index] = $item['_source'];
             }
-            $count = $data['hits']['total']['value'];
         }
         return json(['msg' => '', 'code' => 0, 'count' => $data['hits']['total']['value'], 'data' => $result]);
     }
