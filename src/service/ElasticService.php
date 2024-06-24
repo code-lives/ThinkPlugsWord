@@ -28,24 +28,18 @@ class ElasticService
     }
     public function infos()
     {
-        $response = $this->client->info();
-        echo "<pre>";
-        print_R($response);
-    }
-    public function addData()
-    {
-        $this->esSearch();
-        $path = "c6/3c31530edef5cedfec03bcb688d3c1.xlsx";
-        echo $this->esCreateIk($path);
-        die;
+        return $this->client->info();
     }
     public function getPdf($path)
     {
         return Pdf::getText(app()->getRootPath() . '/public/upload/' . $path);
     }
+    public function getTxt($path)
+    {
+        return file_get_contents(app()->getRootPath() . '/public/upload/' . $path);
+    }
     public function getDoc($path)
     {
-        sleep(1);
         $phpWord = \PhpOffice\PhpWord\IOFactory::load(app()->getRootPath() . '/public/upload/' . $path);
         $content = "";
         foreach ($phpWord->getSections() as $section) {

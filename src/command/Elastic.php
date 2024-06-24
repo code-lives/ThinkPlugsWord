@@ -50,6 +50,8 @@ class Elastic extends Command
                 $content = $service->getDoc($val['xkey']);
             } else if ($val['xext'] == 'pdf') {
                 $content = $service->getPdf($val['xkey']);
+            } else if ($val['xext'] == 'txt') {
+                $content = $service->getPdf($val['xkey']);
             } else {
                 $content = $val['name'];
             }
