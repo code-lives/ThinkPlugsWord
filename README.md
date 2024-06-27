@@ -1,4 +1,4 @@
-# ThinkPlugsWord
+# ThinkPlugsWord (只限本地部署项目，研发中...)
 
 针对系统文件的上传后的文件，进行 ES 分词搜索。
 
