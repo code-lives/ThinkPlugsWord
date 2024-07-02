@@ -73,7 +73,6 @@ class ElasticService
     {
         $page = request()->get('page', 1);
         $limit = request()->get('limit', 10);
-        // 查询文档并仅返回 content 字段
         $searchParams = [
             'index' => 'contents',
             'body' => [
@@ -82,7 +81,7 @@ class ElasticService
                     'bool' => [
                         'must' => $this->spliceWhere()
                     ]
-                ], 'sort' => ['id' => ['order' => 'desc']]
+                ]
             ],
             'size' => $limit,
             'from' => ($page - 1) * $limit,
@@ -156,26 +155,33 @@ class ElasticService
     }
     public function getExecl($path)
     {
-        exit;
-        // execl 读取太大，还在考虑中
-        // $spreadsheet = IOFactory::load('../public/upload/' . $path);
-        // // 获取所有工作表
-        // $sheetCount = $spreadsheet->getSheetCount();
-
-        // for ($sheetIndex = 0; $sheetIndex < $sheetCount; $sheetIndex++) {
-        //     $worksheet = $spreadsheet->getSheet($sheetIndex);
-        //     echo "Sheet " . ($sheetIndex + 1) . ": " . $worksheet->getTitle() . "\n";
-
-        //     // 遍历行和列，输出每个单元格的内容
-        //     foreach ($worksheet->getRowIterator() as $row) {
-        //         $cellIterator = $row->getCellIterator();
-        //         $cellIterator->setIterateOnlyExistingCells(false); // 遍历所有单元格，包括空单元格
-        //         foreach ($cellIterator as $cell) {
-        //             echo $cell->getValue() . "\t";
-        //         }
-        //         echo "\n";
-        //     }
-        //     echo "\n";
-        // }
+        $reader = IOFactory::createReader('Xlsx');
+        $reader->setReadDataOnly(true);
+        $spreadsheet = $reader->load(app()->getRootPath() . '/public/upload/' . $path);
+        // 获取所有工作表
+        $sheetCount = $spreadsheet->getSheetCount();
+        // 遍历每个工作表
+        $string = '';
+        for ($sheetIndex = 0; $sheetIndex < $sheetCount; $sheetIndex++) {
+            $worksheet = $spreadsheet->getSheet($sheetIndex);
+            // echo "Sheet " . ($sheetIndex + 1) . ": " . $worksheet->getTitle() . "\n";
+            $string .= $worksheet->getTitle();
+            // 获取工作表的行数和列数
+            $highestRow = $worksheet->getHighestRow();
+            $highestColumn = $worksheet->getHighestColumn();
+            // 遍历行和列，直接获取单元格数据
+            for ($row = 1; $row <= $highestRow; $row++) {
+                for ($col = 'A'; $col <= $highestColumn; $col++) {
+                    $cellValue = $worksheet->getCell($col . $row)->getValue();
+                    // echo $cellValue . "\t";
+                    $string .= $cellValue . "\t";
+                }
+                // echo "\n";
+                $string .= "\n";
+            }
+            // echo "\n";
+            $string .= "\n";
+        }
+        return $string;
     }
 }

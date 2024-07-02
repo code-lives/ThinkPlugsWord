@@ -47,12 +47,15 @@ class Elastic extends Command
             ++$count;
             $content = '';
             if ($val['xext'] === 'docx' || $val['xext'] === 'doc') {
-
                 $content = $service->getDoc($val['xkey']);
             } else if ($val['xext'] == 'pdf') {
                 $content = $service->getPdf($val['xkey']);
             } else if ($val['xext'] == 'txt') {
                 $content = $service->getTxt($val['xkey']);
+            } else if ($val['xext'] == 'xlsx') {
+                $content = $service->getExecl($val['xkey']);
+            } else if ($val['xext'] == 'xlss') {
+                $content = $service->getExecl($val['xkey']);
             } else {
                 $content = $val['name'];
             }
